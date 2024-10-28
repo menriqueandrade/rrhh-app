@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "195282944857",
+    "project_id": "employess-app-co",
+    "storage_bucket": "employess-app-co.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:195282944857:android:7cf9118de5cdfb28dc8248",
+        "android_client_info": {
+          "package_name": "com.cjamcu.employess"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7SjFPHsKe0wpcQVvWv98KB6mq2_IAgKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

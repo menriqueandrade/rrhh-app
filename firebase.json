@@ -1,0 +1,25 @@
+{
+    "flutter": {
+        "platforms": {
+            "android": {
+                "default": {
+                    "projectId": "employess-app-co",
+                    "appId": "1:195282944857:android:7cf9118de5cdfb28dc8248",
+                    "fileOutput": "android/app/google-services.json"
+                }
+            },
+            "dart": {
+                "lib/firebase_options.dart": {
+                    "projectId": "employess-app-co",
+                    "configurations": {
+                        "android": "1:195282944857:android:7cf9118de5cdfb28dc8248",
+                        "ios": "1:195282944857:ios:6ba5940266e22866dc8248",
+                        "macos": "1:195282944857:ios:6ba5940266e22866dc8248",
+                        "web": "1:195282944857:web:89c88392652909e0dc8248",
+                        "windows": "1:195282944857:web:6a1d6a3ab8467acddc8248"
+                    }
+                }
+            }
+        }
+    }
+}
