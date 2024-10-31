@@ -29,12 +29,12 @@ class EmployeeModel extends Employee {
       idType: json['idType'],
       idNumber: json['idNumber'],
       email: json['email'],
-      entryDate: json['entryDate'].toDate(),
+      entryDate: DateTime.parse(json['entryDate']),
       area: json['area'],
       isActive: json['isActive'],
-      registrationDate: json['registrationDate'].toDate(),
+      registrationDate: DateTime.parse(json['registrationDate']),
       photoUrl: json['photoUrl'],
-      editionDate: json['editionDate']?.toDate(),
+      editionDate: json['editionDate'] != null ? DateTime.parse(json['editionDate']) : null,
     );
   }
 
@@ -68,12 +68,12 @@ class EmployeeModel extends Employee {
       'idType': idType,
       'idNumber': idNumber,
       'email': email,
-      'entryDate': entryDate,
+      'entryDate': entryDate.toIso8601String(),
       'area': area,
       'isActive': isActive,
-      'registrationDate': registrationDate,
+      'registrationDate': registrationDate?.toIso8601String(),
       'photoUrl': photoUrl,
-      'editionDate': editionDate,
+      'editionDate': editionDate?.toIso8601String(),
     };
   }
 
