@@ -35,35 +35,6 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
     required int page,
     required int limit,
   }) async {
-    // final totalDocs = await _firestore.collection('employees').count().get();
-    // final totalPages = (totalDocs.count! / limit).ceil();
-
-    // Query query = _firestore
-    //     .collection('employees')
-    //     .orderBy('registrationDate', descending: true);
-
-    // if (page > 1) {
-    //   final lastDocSnapshot =
-    //       await _getLastDocumentOfPreviousPage(page - 1, limit);
-    //   if (lastDocSnapshot != null) {
-    //     query = query.startAfterDocument(lastDocSnapshot);
-    //   }
-    // }
-
-    // query = query.limit(limit);
-
-    // final snapshot = await query.get();
-    // final employees = snapshot.docs
-    //     .map((doc) =>
-    //         EmployeeModel.fromJson(doc.data() as Map<String, dynamic>, doc.id))
-    //     .toList();
-
-    // return EmployeeData(
-    //   employees: employees,
-    //   page: page,
-    //   totalPages: totalPages,
-    //   totalEmployees: totalDocs.count ?? 0,
-    // );
     return getEmployeesRest();
   }
 
@@ -138,30 +109,6 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
     return snapshot.docs.isNotEmpty ? snapshot.docs.last : null;
   }
 
-  // @override
-  // Future<EmployeeData> getEmployeesWithFilter(
-  //     Map<String, dynamic> filters) async {
-  //   Query query = _firestore.collection('employees');
-
-  //   filters.forEach((key, value) {
-  //     query = query.where(key, isEqualTo: value);
-  //   });
-
-  //   final snapshot = await query.get();
-
-  //   final employees = snapshot.docs
-  //       .map((doc) =>
-  //           EmployeeModel.fromJson(doc.data() as Map<String, dynamic>, doc.id))
-  //       .toList();
-
-  //   return EmployeeData(
-  //     page: 1,
-  //     totalPages: 1,
-  //     totalEmployees: snapshot.docs.length,
-  //     employees: employees,
-  //   );
-  // }
-
   @override
   Future<EmployeeData> getEmployeesWithFilter(
       Map<String, dynamic> filters) async {
@@ -216,13 +163,6 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
     }
   }
 
-  // @override
-  // Future<void> addEmployee(EmployeeModel employee) async {
-  //   await _firestore.collection('employees').doc(employee.id).set(
-  //         employee.toJson(),
-  //       );
-  // }
-
   Future<void> addEmployee(EmployeeModel employee) async {
     final employeeJson = employee.toJson()..['id'] = null;
     const String apiUrl =
@@ -259,10 +199,6 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
     return result.docs.isNotEmpty;
   }
 
-  // @override
-  // Future<void> deleteEmployee(String employeeId) async {
-  //   await _firestore.collection('employees').doc(employeeId).delete();
-  // }
 
   @override
   Future<void> deleteEmployee(String employeeId) async {
@@ -294,13 +230,6 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
       throw Exception('Error al realizar la solicitud: $e');
     }
   }
-
-  // @override
-  // Future<void> updateEmployee(EmployeeModel employee) async {
-  //   await _firestore.collection('employees').doc(employee.id).update(
-  //         employee.toJson(),
-  //       );
-  // }
 
   @override
   Future<void> updateEmployee(EmployeeModel employee) async {
