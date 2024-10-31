@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:employees/features/employess/data/app_exceptions.dart';
+import 'package:employees/features/employess/data/app_url/app_url.dart';
 
 import 'package:employees/features/employess/data/models/employee.dart';
 import 'package:employees/features/employess/domain/entities/employees_data.dart';
@@ -72,30 +73,27 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
 
     try {
       final response = await http.get(
-        Uri.parse("http://192.168.0.11:8080/mscore/v1/get/getEmployee"),
+        Uri.parse(AppUrl.getEmployee),
         headers: {
           'Content-Type': 'application/json',
         },
       ).timeout(const Duration(seconds: 110));
-
-      print('Respuesta recibida: ${response.statusCode}');
-
       // Verifica si la respuesta fue exitosa
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body); // Decodificar el JSON
         final List<dynamic> responseData = jsonResponse['response'];
 
-        // Mapear los empleados desde la respuesta usando tu modelo
+       
         final List<EmployeeModel> employees = responseData.map((employeeJson) {
           final id = employeeJson['id'].toString(); // Obtiene el id como String
           return EmployeeModel.fromJson(employeeJson, id);
         }).toList();
 
-        // Aquí podrías crear el objeto EmployeeData si lo necesitas
+        
         return EmployeeData(
           employees: employees,
-          page: 1, // Cambia esto según tu lógica de paginación
-          totalPages: 1, // Cambia esto según tu lógica de paginación
+          page: 1,
+          totalPages: 1,
           totalEmployees: employees.length,
         );
       } else {
@@ -168,7 +166,7 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
   Future<EmployeeData> getEmployeesWithFilter(
       Map<String, dynamic> filters) async {
        // final employeeJson = employee.toJson();
-    const String apiUrl ="http://192.168.0.11:8080/mscore/v1/post/getEmployeesWithFilter";
+    const String apiUrl =AppUrl.getEmployeesWithFilter;
     print('Iniciando la obtención de empleados...');
     final employeeJson = filters; 
     try {
@@ -179,28 +177,28 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
               'Content-Type': 'application/json',
             },
             body: json.encode(
-                employeeJson), // Convierte el objeto EmployeeModel a JSON
+                employeeJson), 
           )
           .timeout(const Duration(seconds: 110));
 
       print('Respuesta recibida: ${response.statusCode}');
 
-      // Verifica si la respuesta fue exitosa
+      
       if (response.statusCode == 200) {
-        final jsonResponse = json.decode(response.body); // Decodificar el JSON
+        final jsonResponse = json.decode(response.body); 
         final List<dynamic> responseData = jsonResponse['response'];
 
-        // Mapear los empleados desde la respuesta usando tu modelo
+       
         final List<EmployeeModel> employees = responseData.map((employeeJson) {
-          final id = employeeJson['id'].toString(); // Obtiene el id como String
+          final id = employeeJson['id'].toString(); 
           return EmployeeModel.fromJson(employeeJson, id);
         }).toList();
 
-        // Aquí podrías crear el objeto EmployeeData si lo necesitas
+        
         return EmployeeData(
           employees: employees,
-          page: 1, // Cambia esto según tu lógica de paginación
-          totalPages: 1, // Cambia esto según tu lógica de paginación
+          page: 1, 
+          totalPages: 1, 
           totalEmployees: employees.length,
         );
       } else {
@@ -228,7 +226,7 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
   Future<void> addEmployee(EmployeeModel employee) async {
     final employeeJson = employee.toJson()..['id'] = null;
     const String apiUrl =
-        "http://192.168.0.11:8080/mscore/v1/post/addEmployee"; // URL de tu API para guardar empleados
+        AppUrl.addEmployee; 
 
     try {
       final response = await http
@@ -238,21 +236,16 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
               'Content-Type': 'application/json',
             },
             body: json.encode(
-                employeeJson), // Convierte el objeto EmployeeModel a JSON
+                employeeJson), 
           )
           .timeout(const Duration(seconds: 110));
 
       if (response.statusCode == 200) {
-        // Si la respuesta es exitosa, puedes manejarlo aquí
         print('Empleado guardado correctamente: ${response.body}');
       } else {
-        // Manejo de errores según el código de estado
-        print(
-            'Error al guardar el empleado: ${response.statusCode} - ${response.body}');
         throw Exception('Error al guardar el empleado: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error al realizar la solicitud: $e');
       throw Exception('Error al realizar la solicitud: $e');
     }
   }
@@ -274,7 +267,7 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
   @override
   Future<void> deleteEmployee(String employeeId) async {
     const String apiUrl =
-        "http://192.168.0.11:8080/mscore/v1/post/deleteEmployee";
+        AppUrl.deleteEmployee;
 
     try {
       final Map<String, dynamic> data = {
@@ -294,13 +287,10 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
       if (response.statusCode == 200) {
         print('Empleado eliminado correctamente: ${response.body}');
       } else {
-        print(
-            'Error al eliminar el empleado: ${response.statusCode} - ${response.body}');
         throw Exception(
             'Error al eliminar el empleado: ${response.statusCode}');
       }
     } catch (e) {
-      print('Error al realizar la solicitud: $e');
       throw Exception('Error al realizar la solicitud: $e');
     }
   }
@@ -316,7 +306,7 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
   Future<void> updateEmployee(EmployeeModel employee) async {
     final employeeJson = employee.toJson();
     const String apiUrl =
-        "http://192.168.0.11:8080/mscore/v1/post/updateEmployee"; // URL de tu API para guardar empleados
+        AppUrl.updateEmployee; // URL de tu API para guardar empleados
 
     try {
       final response = await http
@@ -326,15 +316,13 @@ class EmployeesDataSourceImpl implements EmployeesDataSource {
               'Content-Type': 'application/json',
             },
             body: json.encode(
-                employeeJson), // Convierte el objeto EmployeeModel a JSON
+                employeeJson), 
           )
           .timeout(const Duration(seconds: 110));
 
       if (response.statusCode == 200) {
-        // Si la respuesta es exitosa, puedes manejarlo aquí
-        print('Empleado Actualizado correctamente: ${response.body}');
+  
       } else {
-        // Manejo de errores según el código de estado
         print(
             'Error al Actualizar el empleado: ${response.statusCode} - ${response.body}');
         throw Exception('Error al guardar el empleado: ${response.statusCode}');
